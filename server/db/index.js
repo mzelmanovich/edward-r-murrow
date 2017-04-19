@@ -5,6 +5,7 @@ const Events = require('./Events');
 const Organizations = require('./Organizations');
 const Users = require('./Users');
 const zd = require('../rest apis/zendesk').catchpointsystems;
+const Promise = require('bluebird');
 
 //Assosiations
 Tickets.belongsTo(Users, { as: 'requester' });
@@ -31,14 +32,15 @@ const modelMap = {
 };
 
 const resolveForeignKeys = function(instance) {
-  let promChain;
+  let promChain = Promise.resolve(true);
   for (let key in modelMap) {
     const id = instance[key];
     if (id) {
       const model = modelMap[key];
-      promChain = model.findById(id, { attributes: ['id'] }).then(obj => {
-        return obj ? obj : model.fetchById(id).then(apiObj => model.resolveForeignKeys(apiObj));
-      });
+      promChain = promChain.then(() => model.findById(id, { attributes: ['id'] }).then(obj =>
+        obj ? obj : model.fetchById(id).then(apiObj => model.resolveForeignKeys(apiObj))
+      )
+      );
     }
   }
   return Promise.resolve(promChain).then(() => this.upsert(instance)).then(() => this.findById(instance.id));
