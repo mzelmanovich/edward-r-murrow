@@ -7,7 +7,8 @@
   "author": "<mzelmanovich@gmail.com>",
   "license": "GPL-3.0",
   "scripts": {
-    "getEscalations": "node ./scripts/getEscalations"
+    "getEscalations": "node ./scripts/getEscalations",
+    "test": "node_modules/.bin/mocha ./tests --recursive"
   },
   "dependencies": {
     "bluebird": "^3.5.0",
@@ -16,6 +17,7 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "mocha": "^3.2.0"
+    "mocha": "^3.2.0",
+    "nodemon": "^1.11.0"
   }
 }
