@@ -58,6 +58,17 @@ describe('Zendesk Database Objects', function(){
       expect(ticketModel.updated_at).to.be.a('object');
     });
 
+    it('Has user schema defined as expected', () => {
+      const ticketModel = db.zd.Organizations.attributes;
+      expect(ticketModel.id).to.be.a('object');
+      expect(ticketModel.email).to.be.a('object');
+      expect(ticketModel.name).to.be.a('object');
+      expect(ticketModel.active).to.be.a('object');
+      expect(ticketModel.role).to.be.a('object');
+      expect(ticketModel.created_at).to.be.a('object');
+      expect(ticketModel.updated_at).to.be.a('object');
+    });
+
   });
 
 });
