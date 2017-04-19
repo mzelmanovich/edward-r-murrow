@@ -18,6 +18,15 @@ describe('Zendesk API Tests', function(){
 
     });
 
+    it('Gets Tickets', (done) =>{
+      zd.getTicket(18146)
+      .then(({id, subject}) =>{
+        expect(id).to.equal(18146);
+        expect(subject).to.equal('LMP-OWW-IBEX-MAN');
+      })
+      .catch(done);
+    });
+
 
     it('Gets organization', (done) => {
 
