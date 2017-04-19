@@ -98,7 +98,7 @@ class Zendesk{
 
   getOrg(id) {
     const url = this.makeUrl({ id, prefix: 'organizations' });
-    return this.getRequest(url);
+    return this.getRequest(url).then(({body}) => body.organization);
   }
 
   getAudits(id) {
