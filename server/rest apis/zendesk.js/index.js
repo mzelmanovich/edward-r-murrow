@@ -74,9 +74,12 @@ class Zendesk{
     return this.getRequest(url);
   }
 
-  getEscalations(date = moment().subtract(3, 'months').format('YYYY-M-D'), pageFunction) {
+  getEscalations(date = moment().subtract(3, 'months')) {
+    if (date.format){
+      date = date.format('YYYY-M-D');
+    }
     return this.search(`created>${date} tags:bug_esc tags:enh_esc tags:ops_esc type:ticket`)
-            .recursive(pageFunction)
+            .recursive()
             .then(bodies => {
               const tickets = [];
               bodies.forEach(({ results }) => {
@@ -86,6 +89,21 @@ class Zendesk{
               });
               return tickets;
             });
+  }
+
+  getUser(id) {
+    const url = this.makeUrl({ id, prefix: 'users' });
+    return this.getRequest(url);
+  }
+
+  getOrg(id) {
+    const url = this.makeUrl({ id, prefix: 'organizations' });
+    return this.getRequest(url);
+  }
+
+  getAudits(id) {
+    const url = this.makeUrl({ id, prefix: 'tickets', suffix: 'audits' });
+    return this.getRequest(url).recursive();
   }
 
 }
