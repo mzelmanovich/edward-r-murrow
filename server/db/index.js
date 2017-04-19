@@ -6,6 +6,7 @@ const Events = require('./Events');
 module.exports = {
   sync,
   zd:{
-    Tickets
+    Tickets,
+    Events
   }
 };
