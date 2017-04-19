@@ -8,7 +8,7 @@ describe('Zendesk Database Objects', function(){
 
     it('Can connect to db', (done) => {
       db.sync(true)
-      .then(() => done())
+      .then(() => done(123))
       .catch(done);
     });
 

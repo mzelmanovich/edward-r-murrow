@@ -1,6 +1,6 @@
 const conn = require('./conn');
 const sync = (force)=> conn.sync({ force });
 
-module.exports ={
+module.exports = {
   sync
 };
