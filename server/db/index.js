@@ -41,7 +41,7 @@ const resolveForeignKeys = function(instance) {
       });
     }
   }
-  return promChain.then(() => this.upsert(instance)).then(() => this.findById(instance.id));
+  return Promise.resolve(promChain).then(() => this.upsert(instance)).then(() => this.findById(instance.id));
 };
 
 Organizations.fetchById = function(id){
