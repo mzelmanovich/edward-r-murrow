@@ -20,9 +20,9 @@ describe('Zendesk Database Objects', function(){
 
   });
 
-  describe('Zendesk Model', () => {
+  describe('Zendesk Model Schema', () => {
 
-    it('Has schema defined as expected', () => {
+    it('Has ticket schema defined as expected', () => {
       const ticketModel = db.zd.Tickets.attributes;
       expect(ticketModel.id).to.be.a('object');
       expect(ticketModel.url).to.be.a('object');
@@ -34,7 +34,6 @@ describe('Zendesk Database Objects', function(){
       expect(ticketModel.is_public).to.be.a('object');
       expect(ticketModel.created_at).to.be.a('object');
       expect(ticketModel.updated_at).to.be.a('object');
-      console.log(ticketModel.updated_at);
     });
 
   });
