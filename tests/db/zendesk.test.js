@@ -4,12 +4,37 @@ const db = require('../../server/db');
 describe('Zendesk Database Objects', function(){
   this.timeout(60000 * 2);
 
+  beforeEach((done)=>{
+    db.sync(true)
+      .then(() => done())
+      .catch(done);
+  });
+
   describe('Database Connection', () => {
 
     it('Can connect to db', (done) => {
       db.sync(true)
-      .then(() => done(123))
+      .then(() => done())
       .catch(done);
+    });
+
+  });
+
+  describe('Zendesk Model', () => {
+
+    it('Has schema defined as expected', () => {
+      const ticketModel = db.zd.Tickets.attributes;
+      expect(ticketModel.id).to.be.a('object');
+      expect(ticketModel.url).to.be.a('object');
+      expect(ticketModel.status).to.be.a('object');
+      expect(ticketModel.type).to.be.a('object');
+      expect(ticketModel.subject).to.be.a('object');
+      expect(ticketModel.priority).to.be.a('object');
+      expect(ticketModel.due_at).to.be.a('object');
+      expect(ticketModel.is_public).to.be.a('object');
+      expect(ticketModel.created_at).to.be.a('object');
+      expect(ticketModel.updated_At).to.be.a('object');
+      console.log(ticketModel.updated_At);
     });
 
   });
