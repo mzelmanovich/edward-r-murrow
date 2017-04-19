@@ -37,7 +37,7 @@ class Zendesk{
   }
 
   makeAuthHeader (userName, token) {
-    new Buffer(userName + '/token:' + token).toString('base64');
+    return new Buffer(userName + '/token:' + token).toString('base64');
   }
 
   getRequest(url, timeout = 0){
