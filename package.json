@@ -1,0 +1,9 @@
+{
+  "name": "edward-r-murrow",
+  "version": "1.0.0",
+  "description": "reporter for me to use for work",
+  "main": "index.js",
+  "repository": "https://github.com/mzelmanovich/edward-r-murrow.git",
+  "author": "<mzelmanovich@gmail.com>",
+  "license": "GNU"
+}
