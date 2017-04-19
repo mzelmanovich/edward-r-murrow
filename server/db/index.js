@@ -4,7 +4,7 @@ const Tickets = require('./Tickets');
 const Events = require('./Events');
 const Organizations = require('./Organizations');
 const Users = require('./Users');
-const zd = require('../rest apis/zendesk');
+const zd = require('../rest apis/zendesk').catchpointsystems;
 
 //Assosiations
 Tickets.belongsTo(Users, { as: 'requester' });
