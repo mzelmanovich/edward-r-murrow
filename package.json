@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": "https://github.com/mzelmanovich/edward-r-murrow.git",
   "author": "<mzelmanovich@gmail.com>",
-  "license":"GPL-3.0",
+  "license": "GPL-3.0",
   "scripts": {
     "getEscalations": "node ./scripts/getEscalations"
   },
@@ -13,5 +13,9 @@
     "bluebird": "^3.5.0",
     "moment": "^2.18.1",
     "needle": "^1.6.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0"
   }
 }
