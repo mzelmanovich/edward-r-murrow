@@ -24,6 +24,9 @@ const getRequest = (url, authHeader, timeout = 0) => {
       timeout = resp.headers['retry-after'] * 1000;
       return getRequest(url, authHeader, timeout);
     }
+    if(resp.body.error){
+      throw resp.body;
+    }
     throw resp;
   });
 };
@@ -93,7 +96,7 @@ class Zendesk{
 
   getUser(id) {
     const url = this.makeUrl({ id, prefix: 'users' });
-    return this.getRequest(url);
+    return this.getRequest(url).then(({body}) => body.user);
   }
 
   getOrg(id) {
