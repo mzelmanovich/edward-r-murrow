@@ -59,7 +59,7 @@ describe('Zendesk Database Objects', function(){
     });
 
     it('Has user schema defined as expected', () => {
-      const ticketModel = db.zd.Organizations.attributes;
+      const ticketModel = db.zd.Users.attributes;
       expect(ticketModel.id).to.be.a('object');
       expect(ticketModel.email).to.be.a('object');
       expect(ticketModel.name).to.be.a('object');
