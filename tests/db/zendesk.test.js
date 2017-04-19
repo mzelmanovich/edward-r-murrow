@@ -36,6 +36,20 @@ describe('Zendesk Database Objects', function(){
       expect(ticketModel.updated_at).to.be.a('object');
     });
 
+    it('Has event schema defined as expected', () => {
+      const ticketModel = db.zd.Events.attributes;
+      expect(ticketModel.id).to.be.a('object');
+      expect(ticketModel.type).to.be.a('object');
+      expect(ticketModel.body).to.be.a('object');
+      expect(ticketModel.public).to.be.a('object');
+      expect(ticketModel.subject).to.be.a('object');
+      expect(ticketModel.previous_value).to.be.a('object');
+      expect(ticketModel.value).to.be.a('object');
+      expect(ticketModel.field_name).to.be.a('object');
+      expect(ticketModel.created_at).to.be.a('object');
+      expect(ticketModel.updated_at).to.be.a('object');
+    });
+
   });
 
 });
