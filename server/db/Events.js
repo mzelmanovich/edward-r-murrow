@@ -1,4 +1,4 @@
-const conn = require('../conn');
+const conn = require('./conn');
 
 const attrs = {
     id: { type: conn.Sequelize.INTEGER, primaryKey: true },
