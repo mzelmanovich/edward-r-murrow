@@ -30,6 +30,17 @@ describe('Zendesk API Tests', function(){
 
     });
 
+    it('Gets user', (done) => {
+
+      zd.getUser(859640749)
+        .then(({name, organization_id}) => {
+          expect(name).to.equal('Greg Rubin');
+          expect(organization_id).to.equal(24928435);
+          done();
+        }).catch(done);
+
+    });
+
 
   });
 
