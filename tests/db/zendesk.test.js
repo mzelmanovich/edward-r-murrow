@@ -119,6 +119,19 @@ describe('Zendesk Database Objects', function(){
       })
       .catch(done);
     });
-  });
 
+    it('Get A Ticket and its ForeignKeys', (done) =>{
+
+      db.zd.Tickets.fetchById(18146)
+      .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
+      .then(({id, assignee_id, requester_id, submitter_id}) =>{
+        expect(id).to.equal(18146);
+        expect(assignee_id).to.be.greaterThan(100);
+        expect(requester_id).to.be.greaterThan(100);
+        expect(submitter_id).to.be.greaterThan(100);
+        done();
+      })
+      .catch(done);
+  });
+});
 });
