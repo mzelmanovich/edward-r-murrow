@@ -36,7 +36,7 @@ const resolveForeignKeys = function(instance) {
     const id = instance[key];
     if (id) {
       const model = modelMap[key];
-      promChain = () => model.findById(id, { attributes: ['id'] }).then(obj => {
+      promChain = model.findById(id, { attributes: ['id'] }).then(obj => {
         return obj ? obj : model.fetchById(id).then(apiObj => model.resolveForeignKeys(apiObj));
       });
     }
