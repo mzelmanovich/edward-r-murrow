@@ -19,8 +19,6 @@ Events.belongsTo(Users, { as: 'author' });
 Users.belongsTo(Organizations, { onDelete: 'CASCADE' });
 Organizations.hasMany(Users, { onDelete: 'CASCADE' });
 
-console.log(Tickets, 123);
-
 module.exports = {
   sync,
   zd: {
