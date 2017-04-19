@@ -1,7 +1,7 @@
 const request = require('../request');
 const get = request.get;
 const BlueBird = require('bluebird');
-
+const moment = require('moment');
 
 const getRequest = (url, authHeader, timeout = 0) => {
   return new BlueBird((resolve, reject) => {
@@ -67,6 +67,25 @@ class Zendesk{
       url += '/' + suffix;
     }
     return url + '.json';
+  }
+
+  search(searchString) {
+    const url = this.makeUrl({ prefix: 'search' }) + `?query=${searchString}`;
+    return this.getRequest(url);
+  }
+
+  getEscalations(date = moment().subtract(3, 'months').format('YYYY-M-D'), pageFunction) {
+    return this.search(`created>${date} tags:bug_esc tags:enh_esc tags:ops_esc type:ticket`)
+            .recursive(pageFunction)
+            .then(bodies => {
+              const tickets = [];
+              bodies.forEach(({ results }) => {
+                results.forEach(ticket => {
+                  tickets.push(ticket);
+                });
+              });
+              return tickets;
+            });
   }
 
 }
