@@ -95,7 +95,7 @@ describe('Zendesk Database Objects', function(){
     it('Can fetch Users', (done) =>{
       db.zd.Users.fetchById(859640749)
       .then(({id}) =>{
-        expect(id).to.equal(651204445);
+        expect(id).to.equal(859640749);
         done();
       })
       .catch(done);
