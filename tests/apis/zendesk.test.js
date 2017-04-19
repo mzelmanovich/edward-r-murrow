@@ -1,7 +1,12 @@
 const {expect} = require('chai');
 const Zendesk = require('../../server/rest apis/zendesk');
-const config = require('../../config');
-const zd = new Zendesk(config.zendesk);
+const config = {
+  userName: process.env.ZD_USERNAME,
+  token: process.env.ZD_TOKEN,
+  domain: process.env.ZD_DOMAIN
+};
+
+const zd = new Zendesk(config);
 
 describe('Zendesk API Tests', function(){
   this.timeout(60000 * 2);
