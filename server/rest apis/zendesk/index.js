@@ -106,6 +106,24 @@ class Zendesk{
     return this.getRequest(url).recursive();
   }
 
+  getEvents(id) {
+    return this.getAudits(id)
+    .then(auditResponses => {
+      let returnEvents = [];
+      auditResponses.forEach(({audits}) => {
+        audits.forEach(({created_at, updated_at, ticket_id, author_id, events}) => {
+          events.forEach(event => {
+            event.created_at = created_at;
+            event.updated_at = updated_at;
+            event.ticket_id = ticket_id;
+            event.author_id = author_id;
+            returnEvents.push(event);
+          });
+        });
+      });
+      return returnEvents;
+    });
+  }
 }
 
 module.exports = Zendesk;
