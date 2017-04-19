@@ -33,8 +33,8 @@ describe('Zendesk Database Objects', function(){
       expect(ticketModel.due_at).to.be.a('object');
       expect(ticketModel.is_public).to.be.a('object');
       expect(ticketModel.created_at).to.be.a('object');
-      expect(ticketModel.updated_At).to.be.a('object');
-      console.log(ticketModel.updated_At);
+      expect(ticketModel.updated_at).to.be.a('object');
+      console.log(ticketModel.updated_at);
     });
 
   });
