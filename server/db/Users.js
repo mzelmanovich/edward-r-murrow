@@ -1,5 +1,4 @@
 const conn = require('./conn');
-const zd = require('../../apis/Zendesk');
 
 const attrs = {
     id: { type: conn.Sequelize.INTEGER, primaryKey: true },
