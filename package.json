@@ -5,5 +5,9 @@
   "main": "index.js",
   "repository": "https://github.com/mzelmanovich/edward-r-murrow.git",
   "author": "<mzelmanovich@gmail.com>",
-  "license": "GNU"
+  "license": "GNU",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "needle": "^1.6.0"
+  }
 }
