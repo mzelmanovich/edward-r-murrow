@@ -21,7 +21,7 @@ describe('Zendesk Database Objects', function(){
   });
 
   describe('Zendesk Model Schema', () => {
-
+console.log(db.zd.Tickets, 123);
     it('Has ticket schema defined as expected', () => {
       const ticketModel = db.zd.Tickets.attributes;
       expect(ticketModel.id).to.be.a('object');
