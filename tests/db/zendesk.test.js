@@ -102,4 +102,23 @@ describe('Zendesk Database Objects', function(){
     });
 
   });
+
+  describe('resolveForeignKeys', () => {
+
+    it('Gets A User and their Org', (done) => {
+    db.zd.Users.fetchById(859640749)
+      .then( user  => Users.resolveForeignKeys(user) )
+      .then(({organization_id}) => {
+        expect(organization_id).to.equal(24928435);
+        return {organization_id}
+      })
+      .then(({organization_id}) => db.zd.Organizations.findById(organization_id))
+      .then(({name}) =>{
+        expect(name).to.equal('Catchpoint');
+        done();
+      })
+      .catch(done);
+    });
+  });
+
 });

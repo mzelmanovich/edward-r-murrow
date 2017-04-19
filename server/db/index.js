@@ -48,13 +48,19 @@ Organizations.fetchById = function(id){
   return zd.getOrg(id);
 };
 
+Organizations.resolveForeignKeys = resolveForeignKeys;
+
 Users.fetchById = function(id){
   return zd.getUser(id);
 };
 
+Users.resolveForeignKeys = resolveForeignKeys;
+
 Tickets.fetchById = function(id){
   return zd.getTicket(id);
 };
+
+Tickets.resolveForeignKeys = resolveForeignKeys;
 
 module.exports = {
   sync,
