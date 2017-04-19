@@ -23,6 +23,7 @@ describe('Zendesk API Tests', function(){
       .then(({id, subject}) =>{
         expect(id).to.equal(18146);
         expect(subject).to.equal('LMP-OWW-IBEX-MAN');
+        done();
       })
       .catch(done);
     });
