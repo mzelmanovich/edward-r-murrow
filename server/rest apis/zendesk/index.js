@@ -109,6 +109,11 @@ class Zendesk{
     return this.getRequest(url).recursive();
   }
 
+  getTicket(id){
+    const url = this.makeUrl({ id, prefix: 'tickets'});
+    return this.getRequest(url).then(({body}) => body.ticket);
+  }
+
   getEvents(id) {
     return this.getAudits(id)
     .then(auditResponses => {
@@ -128,5 +133,13 @@ class Zendesk{
     });
   }
 }
+
+const catchpointsystemsConfig = {
+  userName: process.env.ZD_USERNAME,
+  token: process.env.ZD_TOKEN,
+  domain: process.env.ZD_DOMAIN
+};
+
+Zendesk.catchpointsystems = new Zendesk(catchpointsystemsConfig);
 
 module.exports = Zendesk;

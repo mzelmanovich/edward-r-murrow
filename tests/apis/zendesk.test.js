@@ -1,12 +1,6 @@
 const {expect} = require('chai');
 const Zendesk = require('../../server/rest apis/zendesk');
-const config = {
-  userName: process.env.ZD_USERNAME,
-  token: process.env.ZD_TOKEN,
-  domain: process.env.ZD_DOMAIN
-};
-
-const zd = new Zendesk(config);
+const zd = Zendesk.catchpointsystems;
 
 describe('Zendesk API Tests', function(){
   this.timeout(60000 * 2);
@@ -22,6 +16,16 @@ describe('Zendesk API Tests', function(){
           done();
         }).catch(done);
 
+    });
+
+    it('Gets Tickets', (done) =>{
+      zd.getTicket(18146)
+      .then(({id, subject}) =>{
+        expect(id).to.equal(18146);
+        expect(subject).to.equal('LMP-OWW-IBEX-MAN');
+        done();
+      })
+      .catch(done);
     });
 
 

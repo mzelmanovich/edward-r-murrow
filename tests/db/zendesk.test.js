@@ -71,4 +71,35 @@ describe('Zendesk Database Objects', function(){
 
   });
 
+  describe('fetchById Class Methods', () => {
+
+    it('Can fetch tickets', (done) =>{
+      db.zd.Tickets.fetchById(18146)
+      .then(({id, subject}) =>{
+        expect(id).to.equal(18146);
+        expect(subject).to.equal('LMP-OWW-IBEX-MAN');
+        done();
+      })
+      .catch(done);
+    });
+
+    it('Can fetch Orgs', (done) =>{
+      db.zd.Organizations.fetchById(651204445)
+      .then(({id}) =>{
+        expect(id).to.equal(651204445);
+        done();
+      })
+      .catch(done);
+    });
+
+    it('Can fetch Users', (done) =>{
+      db.zd.Users.fetchById(859640749)
+      .then(({id}) =>{
+        expect(id).to.equal(859640749);
+        done();
+      })
+      .catch(done);
+    });
+
+  });
 });
