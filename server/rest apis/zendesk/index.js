@@ -24,7 +24,7 @@ const getRequest = (url, authHeader, timeout = 0) => {
       timeout = resp.headers['retry-after'] * 1000;
       return getRequest(url, authHeader, timeout);
     }
-    if(resp.body.error){
+    if (resp.body.error){
       throw resp.body;
     }
     throw resp;
@@ -44,11 +44,13 @@ class Zendesk{
   }
 
   getRequest(url, timeout = 0){
-    let prom = this.requestPromiseChain.then(() => {
-      return getRequest(url, this.authHeader, timeout);
-    });
+    // let prom = this.requestPromiseChain.then(() => {
+    //   return getRequest(url, this.authHeader, timeout);
+    // });
+
+    let prom = getRequest(url, this.authHeader, timeout);
     prom.recursive = () => this.makeRecursive(prom);
-    this.requestPromiseChain = prom;
+    // this.requestPromiseChain = prom;
     return prom;
   }
 
