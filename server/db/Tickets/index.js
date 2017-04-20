@@ -1,9 +1,9 @@
 const conn = require('../conn');
 
 const attrs = {
-  id: { type: conn.Sequelize.INTEGER, primaryKey: true },
+  id: { type: conn.Sequelize.BIGINT, primaryKey: true },
   url: conn.Sequelize.STRING,
-  external_id: conn.Sequelize.INTEGER,
+  external_id: conn.Sequelize.BIGINT,
   status: conn.Sequelize.STRING,
   type: conn.Sequelize.STRING,
   subject: conn.Sequelize.STRING,
@@ -12,11 +12,11 @@ const attrs = {
   is_public: conn.Sequelize.BOOLEAN,
   created_at: conn.Sequelize.DATE,
   updated_at: conn.Sequelize.DATE,
-  follow_up_id: conn.Sequelize.INTEGER
+  follow_up_id: conn.Sequelize.BIGINT
 };
 
 const setterMethods = require('./setterMethods');
 
-const Tickets = conn.define('ticket', attrs, { underscored: true, timestamps: false });
+const Tickets = conn.define('ticket', attrs, { underscored: true, timestamps: false, setterMethods });
 
 module.exports = Tickets;
