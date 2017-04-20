@@ -32,18 +32,18 @@ const modelMap = {
 };
 
 const resolveForeignKeys = function(instance) {
-  let promChain = Promise.resolve(true);
+  let promArr = []
   for (let key in modelMap) {
     const id = instance[key];
     if (id) {
       const model = modelMap[key];
-      promChain = promChain.then(() => model.findById(id, { attributes: ['id'] }).then(obj =>
+      prom = () => model.findById(id, { attributes: ['id'] }).then(obj =>
         obj ? obj : model.fetchById(id).then(apiObj => model.resolveForeignKeys(apiObj))
-      )
       );
+      promArr.push(prom);
     }
   }
-  return Promise.resolve(promChain).then(() => this.upsert(instance)).then(() => this.findById(instance.id));
+  return Promise.all(promChain).then(() => this.upsert(instance)).then(() => this.findById(instance.id));
 };
 
 Organizations.fetchById = function(id){
