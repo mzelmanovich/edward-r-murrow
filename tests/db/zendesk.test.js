@@ -130,7 +130,8 @@ describe('Zendesk Database Objects', function(){
 
       db.zd.Tickets.fetchById(18146)
       .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
-      .then(({ticket: {id, assignee_id, requester_id, submitter_id}}) => {
+      .then((ticket) => {
+        const {id, assignee_id, requester_id, submitter_id} = ticket;
         expect(id).to.equal('18146');
         expect(assignee_id).to.equal('490406769');
         expect(requester_id).to.be.greaterThan(100);
