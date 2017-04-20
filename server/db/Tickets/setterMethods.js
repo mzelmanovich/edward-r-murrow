@@ -38,5 +38,6 @@ const satisfaction_rating = function({score}){
 
 module.exports = {
   via,
-  custom_fields
+  custom_fields,
+  satisfaction_rating
 };
