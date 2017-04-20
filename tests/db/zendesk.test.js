@@ -4,7 +4,7 @@ const db = require('../../server/db');
 describe('Zendesk Database Objects', function(){
   this.timeout(60000 * 2);
 
-  beforeEach((done)=>{
+  beforeEach((done) => {
     db.sync(true)
       .then(() => done())
       .catch(done);
@@ -73,9 +73,9 @@ describe('Zendesk Database Objects', function(){
 
   describe('fetchById Class Methods', () => {
 
-    it('Can fetch tickets', (done) =>{
+    it('Can fetch tickets', (done) => {
       db.zd.Tickets.fetchById(18146)
-      .then(({id, subject}) =>{
+      .then(({id, subject}) => {
         expect(id).to.equal(18146);
         expect(subject).to.equal('LMP-OWW-IBEX-MAN');
         done();
@@ -83,18 +83,18 @@ describe('Zendesk Database Objects', function(){
       .catch(done);
     });
 
-    it('Can fetch Orgs', (done) =>{
+    it('Can fetch Orgs', (done) => {
       db.zd.Organizations.fetchById(651204445)
-      .then(({id}) =>{
+      .then(({id}) => {
         expect(id).to.equal(651204445);
         done();
       })
       .catch(done);
     });
 
-    it('Can fetch Users', (done) =>{
+    it('Can fetch Users', (done) => {
       db.zd.Users.fetchById(859640749)
-      .then(({id}) =>{
+      .then(({id}) => {
         expect(id).to.equal(859640749);
         done();
       })
@@ -110,21 +110,21 @@ describe('Zendesk Database Objects', function(){
       .then( user  => db.zd.Users.resolveForeignKeys(user) )
       .then(({organization_id}) => {
         expect(organization_id).to.equal(24928435);
-        return {organization_id}
+        return {organization_id};
       })
       .then(({organization_id}) => db.zd.Organizations.findById(organization_id))
-      .then(({name}) =>{
+      .then(({name}) => {
         expect(name).to.equal('Catchpoint');
         done();
       })
       .catch(done);
     });
 
-    it('Get A Ticket and its ForeignKeys', (done) =>{
+    it('Get A Ticket and its ForeignKeys', (done) => {
 
       db.zd.Tickets.fetchById(18146)
       .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
-      .then(({id, assignee_id, requester_id, submitter_id}) =>{
+      .then(({id, assignee_id, requester_id, submitter_id}) => {
         expect(id).to.equal(18146);
         expect(assignee_id).to.be.greaterThan(100);
         expect(requester_id).to.be.greaterThan(100);
@@ -132,6 +132,21 @@ describe('Zendesk Database Objects', function(){
         done();
       })
       .catch(done);
+    });
   });
-});
+
+  describe('Follow Up Tickets', () => {
+
+    it('Gets a follow up and adds the id', (done) => {
+      db.zd.Tickets.fetchById(16595)
+      .then(ticket => db.zd.Tickets.resolveForeignKeys(16595))
+      .then(({follow_up_id}) => {
+        expect(follow_up_id).to.equal(15721);
+        done();
+      })
+      .catch(done);
+    });
+
+  });
+
 });
