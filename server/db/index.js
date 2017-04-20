@@ -43,7 +43,7 @@ const resolveForeignKeys = function(instance) {
       promArr.push(prom);
     }
   }
-  return Promise.all(promChain).then(() => this.upsert(instance)).then(() => this.findById(instance.id));
+  return Promise.all(promArr).then(() => this.upsert(instance)).then(() => this.findById(instance.id));
 };
 
 Organizations.fetchById = function(id){
