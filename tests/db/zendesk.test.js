@@ -139,7 +139,7 @@ describe('Zendesk Database Objects', function(){
 
     it('Gets a follow up and adds the id', (done) => {
       db.zd.Tickets.fetchById(16595)
-      .then(ticket => db.zd.Tickets.resolveForeignKeys(16595))
+      .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
       .then(({follow_up_id}) => {
         expect(follow_up_id).to.equal(15721);
         done();
