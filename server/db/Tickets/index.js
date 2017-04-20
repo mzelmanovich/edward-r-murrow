@@ -12,7 +12,13 @@ const attrs = {
   is_public: conn.Sequelize.BOOLEAN,
   created_at: conn.Sequelize.DATE,
   updated_at: conn.Sequelize.DATE,
-  follow_up_id: conn.Sequelize.BIGINT
+  follow_up_id: conn.Sequelize.BIGINT,
+  esc_tam: conn.Sequelize.STRING,
+  esc_tt: conn.Sequelize.STRING,
+  user_story_id: conn.Sequelize.STRING,
+  esc_type: conn.Sequelize.STRING,
+  esc_status: conn.Sequelize.STRING,
+  category: conn.Sequelize.STRING
 };
 
 const setterMethods = require('./setterMethods');

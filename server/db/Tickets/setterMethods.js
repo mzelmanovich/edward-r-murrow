@@ -5,6 +5,35 @@ const via = function({source}){
   }
 };
 
+const custom_fields = function(fields){
+  fields.forEach(({id, value}) => {
+    if (id === 23684505){
+      return this.setDataValue('esc_type', value);
+    }
+
+    if (id === 23746995){
+      return this.setDataValue('user_story_id', value);
+    }
+
+    if (id === 23778369){
+      return this.setDataValue('esc_status', value);
+    }
+
+    if (id === 24667426){
+      return this.setDataValue('esc_tam', value);
+    }
+
+    if (id === 24736606){
+      return this.setDataValue('esc_tt', value);
+    }
+
+    if (id === 23308995){
+      return this.setDataValue('category', value);
+    }
+  });
+};
+
 module.exports = {
-  via
+  via,
+  custom_fields
 };

@@ -159,6 +159,21 @@ describe('Zendesk Database Objects', function(){
       .catch(done);
     });
 
+    it('Gets ticket custom fields', (done) => {
+      db.zd.Tickets.fetchById(18146)
+      .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
+      .then((ticket) => {
+        expect(ticket.getDataValue('esc_tam')).to.equal('Ram Suriyanarayan');
+        expect(ticket.getDataValue('esc_tt')).to.equal('Nilabh Mishra');
+        expect(ticket.getDataValue('user_story_id')).to.equal('OPS:3324');
+        expect(ticket.getDataValue('esc_status')).to.equal('suc_esc');
+        expect(ticket.getDataValue('esc_type')).to.equal('ops_esc');
+        expect(ticket.getDataValue('category')).to.equal('system_health__onprem_node_health');
+        done();
+      })
+      .catch(done);
+    });
+
   });
 
 });
