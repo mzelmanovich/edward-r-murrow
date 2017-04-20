@@ -37,7 +37,7 @@ const resolveForeignKeys = function(instance) {
     const id = instance[key];
     if (id) {
       const model = modelMap[key];
-      prom = () => model.findById(id, { attributes: ['id'] }).then(obj =>
+      prom =  model.findById(id, { attributes: ['id'] }).then(obj =>
         obj ? obj : model.fetchById(id).then(apiObj => model.resolveForeignKeys(apiObj))
       );
       promArr.push(prom);
