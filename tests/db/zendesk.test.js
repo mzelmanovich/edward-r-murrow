@@ -4,7 +4,13 @@ const db = require('../../server/db');
 describe('Zendesk Database Objects', function(){
   this.timeout(60000 * 2);
 
-  beforeEach((done)=>{
+  beforeEach((done) => {
+    db.sync(true)
+      .then(() => done())
+      .catch(done);
+  });
+
+  afterEach((done) => {
     db.sync(true)
       .then(() => done())
       .catch(done);
@@ -73,9 +79,9 @@ describe('Zendesk Database Objects', function(){
 
   describe('fetchById Class Methods', () => {
 
-    it('Can fetch tickets', (done) =>{
+    it('Can fetch tickets', (done) => {
       db.zd.Tickets.fetchById(18146)
-      .then(({id, subject}) =>{
+      .then(({id, subject}) => {
         expect(id).to.equal(18146);
         expect(subject).to.equal('LMP-OWW-IBEX-MAN');
         done();
@@ -83,18 +89,18 @@ describe('Zendesk Database Objects', function(){
       .catch(done);
     });
 
-    it('Can fetch Orgs', (done) =>{
+    it('Can fetch Orgs', (done) => {
       db.zd.Organizations.fetchById(651204445)
-      .then(({id}) =>{
+      .then(({id}) => {
         expect(id).to.equal(651204445);
         done();
       })
       .catch(done);
     });
 
-    it('Can fetch Users', (done) =>{
+    it('Can fetch Users', (done) => {
       db.zd.Users.fetchById(859640749)
-      .then(({id}) =>{
+      .then(({id}) => {
         expect(id).to.equal(859640749);
         done();
       })
@@ -109,29 +115,66 @@ describe('Zendesk Database Objects', function(){
       db.zd.Users.fetchById(859640749)
       .then( user  => db.zd.Users.resolveForeignKeys(user) )
       .then(({organization_id}) => {
-        expect(organization_id).to.equal(24928435);
-        return {organization_id}
+        expect(organization_id).to.equal('24928435');
+        return {organization_id};
       })
       .then(({organization_id}) => db.zd.Organizations.findById(organization_id))
-      .then(({name}) =>{
+      .then(({name}) => {
         expect(name).to.equal('Catchpoint');
         done();
       })
       .catch(done);
     });
 
-    it('Get A Ticket and its ForeignKeys', (done) =>{
+    it('Get A Ticket and its ForeignKeys', (done) => {
 
       db.zd.Tickets.fetchById(18146)
       .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
-      .then(({id, assignee_id, requester_id, submitter_id}) =>{
-        expect(id).to.equal(18146);
-        expect(assignee_id).to.be.greaterThan(100);
+      .then((ticket) => {
+        const {id, assignee_id, requester_id, submitter_id} = ticket;
+        expect(id).to.equal('18146');
+        expect(assignee_id).to.equal('490406769');
         expect(requester_id).to.be.greaterThan(100);
         expect(submitter_id).to.be.greaterThan(100);
+        return ticket.getAssignee();
+      })
+      .then(({id, name}) => {
+        expect(id).to.equal('490406769');
+        expect(name).to.equal('Ram Suriyanarayanan');
         done();
       })
       .catch(done);
+    });
   });
-});
+
+  describe('Follow Up Tickets', () => {
+
+    it('Gets a follow up and adds the id', (done) => {
+      db.zd.Tickets.fetchById(16595)
+      .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
+      .then(({follow_up_id}) => {
+        expect(follow_up_id).to.equal('15721');
+        done();
+      })
+      .catch(done);
+    });
+
+    it('Gets ticket custom fields', (done) => {
+      db.zd.Tickets.fetchById(18146)
+      .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
+      .then((ticket) => {
+        expect(ticket.getDataValue('esc_tam')).to.equal('Ram Suriyanarayan');
+        expect(ticket.getDataValue('esc_tt')).to.equal('Nilabh Mishra');
+        expect(ticket.getDataValue('user_story_id')).to.equal('OPS:3324');
+        expect(ticket.getDataValue('esc_status')).to.equal('suc_esc');
+        expect(ticket.getDataValue('esc_type')).to.equal('ops_esc');
+        expect(ticket.getDataValue('category')).to.equal('system_health__onprem_node_health');
+        expect(ticket.getDataValue('satisfaction_rating')).to.equal('offered');
+        done();
+      })
+      .catch(done);
+    });
+
+  });
+
 });
