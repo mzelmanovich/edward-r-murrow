@@ -10,6 +10,12 @@ describe('Zendesk Database Objects', function(){
       .catch(done);
   });
 
+  afterEach((done) => {
+    db.sync(true)
+      .then(() => done())
+      .catch(done);
+  });
+
   describe('Database Connection', () => {
 
     it('Can connect to db', (done) => {
