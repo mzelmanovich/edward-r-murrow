@@ -102,4 +102,36 @@ describe('Zendesk Database Objects', function(){
     });
 
   });
+
+  describe('resolveForeignKeys', () => {
+
+    it('Gets A User and their Org', (done) => {
+      db.zd.Users.fetchById(859640749)
+      .then( user  => db.zd.Users.resolveForeignKeys(user) )
+      .then(({organization_id}) => {
+        expect(organization_id).to.equal(24928435);
+        return {organization_id}
+      })
+      .then(({organization_id}) => db.zd.Organizations.findById(organization_id))
+      .then(({name}) =>{
+        expect(name).to.equal('Catchpoint');
+        done();
+      })
+      .catch(done);
+    });
+
+    it('Get A Ticket and its ForeignKeys', (done) =>{
+
+      db.zd.Tickets.fetchById(18146)
+      .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
+      .then(({id, assignee_id, requester_id, submitter_id}) =>{
+        expect(id).to.equal(18146);
+        expect(assignee_id).to.be.greaterThan(100);
+        expect(requester_id).to.be.greaterThan(100);
+        expect(submitter_id).to.be.greaterThan(100);
+        done();
+      })
+      .catch(done);
+  });
+});
 });
