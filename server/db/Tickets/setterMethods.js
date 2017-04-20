@@ -32,6 +32,10 @@ const custom_fields = function(fields){
   });
 };
 
+const satisfaction_rating = function({score}){
+  this.setDataValue('satisfaction_rating', score);
+};
+
 module.exports = {
   via,
   custom_fields

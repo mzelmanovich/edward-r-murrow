@@ -18,7 +18,8 @@ const attrs = {
   user_story_id: conn.Sequelize.STRING,
   esc_type: conn.Sequelize.STRING,
   esc_status: conn.Sequelize.STRING,
-  category: conn.Sequelize.STRING
+  category: conn.Sequelize.STRING,
+  satisfaction_rating: conn.Sequelize.STRING
 };
 
 const setterMethods = require('./setterMethods');

@@ -169,6 +169,7 @@ describe('Zendesk Database Objects', function(){
         expect(ticket.getDataValue('esc_status')).to.equal('suc_esc');
         expect(ticket.getDataValue('esc_type')).to.equal('ops_esc');
         expect(ticket.getDataValue('category')).to.equal('system_health__onprem_node_health');
+        expect(ticket.getDataValue('satisfaction_rating')).to.equal('offered');
         done();
       })
       .catch(done);
