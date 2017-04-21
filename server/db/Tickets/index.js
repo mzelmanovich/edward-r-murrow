@@ -23,7 +23,8 @@ const attrs = {
 };
 
 const setterMethods = require('./setterMethods');
+const instanceMethods = require('./instanceMethods');
 
-const Tickets = conn.define('ticket', attrs, { underscored: true, timestamps: false, setterMethods });
+const Tickets = conn.define('ticket', attrs, { underscored: true, timestamps: false, setterMethods, instanceMethods });
 
 module.exports = Tickets;
