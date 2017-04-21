@@ -214,5 +214,17 @@ describe('Zendesk Database Objects', function(){
       const event = events.find(ev => ev.getCustomFieldName() === 'esc_status');
       expect(event.field_name * 1).to.equal(23778369);
     });
+
+    it('Shows up on Tickets via fetchEvents', (done) => {
+      db.zd.Tickets.fetchById(18146)
+      .then(ticket => db.zd.Tickets.resolveForeignKeys(18146))
+      .then(ticket => ticket.fetchEvents())
+      .then(ticket => {
+        expect(ticket.events.length).to.be.greaterThan(100);
+        done();
+      })
+      .catch(done);
+    });
+
   });
 });
