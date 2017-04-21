@@ -194,7 +194,6 @@ describe('Zendesk Database Objects', function(){
        events = apiEvents;
      })
      .then(() => {
-       console.log(events);
        events = events.map(event => db.zd.Events.resolveForeignKeys(event));
        return Promise.all(events);
      })
