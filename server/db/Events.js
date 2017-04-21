@@ -1,5 +1,17 @@
 const conn = require('./conn');
 
+const arraySetter = function(value){
+  return function(val){
+    if (Array.isArray(val)){
+      val = val.join(',');
+    }
+    if (typeof val === 'object'){
+      val = null;
+    }
+    this.setDataValue('previous_value', val);
+  };
+};
+
 const attrs = {
   id: { type: conn.Sequelize.BIGINT, primaryKey: true },
   type: conn.Sequelize.STRING,
@@ -8,21 +20,11 @@ const attrs = {
   subject: conn.Sequelize.STRING,
   previous_value: { type:
       conn.Sequelize.STRING,
-    set: function(val){
-        if (Array.isArray(val)){
-          val = val.join(',');
-        }
-        this.setDataValue('previous_value', val);
-      }
+    set: arraySetter('previous_value')
   },
   value: { type:
       conn.Sequelize.STRING,
-    set: function(val){
-        if (Array.isArray(val)){
-          val = val.join(',');
-        }
-        this.setDataValue('value', val);
-      }
+    set: arraySetter('value')
   },
   field_name: conn.Sequelize.STRING,
   created_at: conn.Sequelize.DATE,
