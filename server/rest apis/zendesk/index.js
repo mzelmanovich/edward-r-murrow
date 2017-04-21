@@ -126,7 +126,7 @@ class Zendesk{
             event.created_at = created_at;
             event.updated_at = updated_at;
             event.ticket_id = ticket_id;
-            event.author_id = author_id;
+            event.author_id = author_id > -1 ? author_id : null;
             returnEvents.push(event);
           });
         });
