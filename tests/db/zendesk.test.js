@@ -208,7 +208,7 @@ describe('Zendesk Database Objects', function(){
     });
 
     it('Can map custom field names', () => {
-      const event = events.find(ev => ev.getCustomFieldName() === 'esc_status');
+      const event = events.find(ev => ev.field_name * 1 === 23778369);
       expect(event.field_name * 1).to.equal(23778369);
     });
   });
