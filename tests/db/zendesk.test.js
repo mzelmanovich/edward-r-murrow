@@ -220,7 +220,7 @@ describe('Zendesk Database Objects', function(){
       .then(ticket => db.zd.Tickets.resolveForeignKeys(18146))
       .then(ticket => ticket.fetchEvents())
       .then(ticket => {
-        expect(ticket.events.length).to.be.greaterThan(100);
+        expect(ticket.events.length).to.be.greaterThan(15);
         done();
       })
       .catch(done);
