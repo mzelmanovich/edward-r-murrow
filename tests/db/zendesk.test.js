@@ -2,7 +2,7 @@ const {expect} = require('chai');
 const db = require('../../server/db');
 
 describe('Zendesk Database Objects', function(){
-  this.timeout(60000 * 2);
+  this.timeout(60000 * 3);
 
   beforeEach((done) => {
     db.sync(true)
@@ -107,6 +107,15 @@ describe('Zendesk Database Objects', function(){
       .catch(done);
     });
 
+    it('Can fetch Users', (done) => {
+      db.zd.Events.fetchById(18146)
+      .then((arr) => {
+        expect(arr[0].ticket_id).to.equal(18146);
+        done();
+      })
+      .catch(done);
+    });
+
   });
 
   describe('resolveForeignKeys', () => {
@@ -177,4 +186,23 @@ describe('Zendesk Database Objects', function(){
 
   });
 
+  let events = [];
+  describe('Ticket Events', () => {
+    it('Saves to db', (done) => {
+      db.zd.Events.fetchById(18146)
+     .then(apiEvents => {
+       events = apiEvents;
+     })
+     .then(() => {
+       events = events.map(event => db.zd.Events.resolveForeignKeys(event));
+       return Promise.all(events);
+     })
+     .then((dbEvents) => {
+       expect(dbEvents[0].ticket_id * 1).to.be.equal(18146);
+       events = dbEvents;
+       done();
+     })
+     .catch(done);
+    });
+  });
 });
