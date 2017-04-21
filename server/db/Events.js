@@ -35,7 +35,7 @@ const attrs = {
 
 const instanceMethods = {
   getCustomFieldName: function(){
-    const fieldName = getCustomFieldName(this.field_name);
+    const fieldName = getCustomFieldName(this.field_name * 1);
     if (fieldName){
       return fieldName;
     }
