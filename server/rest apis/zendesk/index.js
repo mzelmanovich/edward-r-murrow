@@ -31,12 +31,22 @@ const getRequest = (url, authHeader, timeout = 0) => {
   });
 };
 
+const customFieldDict = {
+  esc_type: 23684505,
+  user_story_id: 23746995,
+  esc_status: 23778369,
+  esc_tam: 24667426,
+  esc_tt: 24736606,
+  category: 23308995
+};
+
 class Zendesk{
 
   constructor({domain, userName, token}){
     this.domain = domain;
     this.authHeader = this.makeAuthHeader(userName, token);
     this.requestPromiseChain = BlueBird.resolve(true);
+    this.customFieldDict = customFieldDict;
   }
 
   makeAuthHeader (userName, token) {
@@ -136,32 +146,26 @@ class Zendesk{
   }
 
   getCustomFieldName(feildId){
-    if (feildId === 23684505){
-      return 'esc_type';
+    const dict = this.customFieldDict;
+    for (let key in dict){
+      if (dict[key] === feildId){
+        return key;
+      }
     }
+    return null;
+  }
 
-    if (feildId === 23746995){
-      return 'user_story_id';
-    }
-
-    if (feildId === 23778369){
-      return 'esc_status';
-    }
-
-    if (feildId === 24667426){
-      return 'esc_tam';
-    }
-
-    if (feildId === 24736606){
-      return 'esc_tt';
-    }
-
-    if (feildId === 23308995){
-      return 'category';
+  getCustomFieldId(feildName){
+    const dict = this.customFieldDict;
+    for (let key in dict){
+      if (key === feildName){
+        return dict[key];
+      }
     }
     return null;
   }
 }
+
 
 const catchpointsystemsConfig = {
   userName: process.env.ZD_USERNAME,
