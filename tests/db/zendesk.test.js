@@ -186,8 +186,8 @@ describe('Zendesk Database Objects', function(){
 
   });
 
+  let events = [];
   describe('Ticket Events', () => {
-    let events = [];
     it('Saves to db', (done) => {
       db.zd.Events.fetchById(18146)
      .then(apiEvents => {
@@ -199,6 +199,7 @@ describe('Zendesk Database Objects', function(){
      })
      .then((dbEvents) => {
        expect(dbEvents[0].ticket_id * 1).to.be.equal(18146);
+       events = dbEvents;
        done();
      })
      .catch(done);
