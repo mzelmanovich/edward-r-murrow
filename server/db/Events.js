@@ -32,6 +32,10 @@ const attrs = {
 };
 
 
-const Events = conn.define('event', attrs, { underscored: true, timestamps: false });
+const instanceMethods = {
+
+};
+
+const Events = conn.define('event', attrs, { underscored: true, timestamps: false, instanceMethods });
 
 module.exports = Events;

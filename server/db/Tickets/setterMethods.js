@@ -1,4 +1,4 @@
-const {getCustomFieldName} = require('../sharedZDFunctions');
+const {getCustomFieldName} = require('../../rest apis/zendesk').catchpointsystems;
 
 const via = function({source}){
   if (source && source.rel === 'follow_up'){
