@@ -1,4 +1,5 @@
 const conn = require('./conn');
+const {getCustomFieldName} = require('../rest apis/zendesk').catchpointsystems;
 
 const arraySetter = function(value){
   return function(val){
@@ -33,7 +34,13 @@ const attrs = {
 
 
 const instanceMethods = {
-
+  getCustomFieldName: function(){
+    const fieldName = getCustomFieldName(this.field_name);
+    if (fieldName){
+      return fieldName;
+    }
+    return this.field_name;
+  }
 };
 
 const Events = conn.define('event', attrs, { underscored: true, timestamps: false, instanceMethods });

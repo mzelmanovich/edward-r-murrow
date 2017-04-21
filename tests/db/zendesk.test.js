@@ -186,8 +186,10 @@ describe('Zendesk Database Objects', function(){
 
   });
 
-  let events = [];
+
   describe('Ticket Events', () => {
+    let events = [];
+
     it('Saves to db', (done) => {
       db.zd.Events.fetchById(18146)
      .then(apiEvents => {
@@ -203,6 +205,11 @@ describe('Zendesk Database Objects', function(){
        done();
      })
      .catch(done);
+    });
+
+    it('Can map custom field names', () => {
+      const event = events.find(ev => ev.getCustomFieldName() === 'esc_status');
+      expect(event.field_name * 1).to.equal(23778369);
     });
   });
 });
