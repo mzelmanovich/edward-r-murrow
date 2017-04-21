@@ -23,21 +23,21 @@ Users.belongsTo(Organizations, { onDelete: 'CASCADE' });
 Organizations.hasMany(Users, { onDelete: 'CASCADE' });
 
 const modelMap = {
-    author_id: Users,
-    assignee_id: Users,
-    requester_id: Users,
-    submitter_id: Users,
-    ticket_id: Tickets,
-    organization_id: Organizations
+  author_id: Users,
+  assignee_id: Users,
+  requester_id: Users,
+  submitter_id: Users,
+  ticket_id: Tickets,
+  organization_id: Organizations
 };
 
 const resolveForeignKeys = function(instance) {
-  let promArr = []
+  let promArr = [];
   for (let key in modelMap) {
     const id = instance[key];
     if (id) {
       const model = modelMap[key];
-     let prom =  model.findById(id, { attributes: ['id'] }).then(obj =>
+      let prom =  model.findById(id, { attributes: ['id'] }).then(obj =>
         obj ? obj : model.fetchById(id).then(apiObj => model.resolveForeignKeys(apiObj))
       );
       promArr.push(prom);
@@ -63,6 +63,12 @@ Tickets.fetchById = function(id){
 };
 
 Tickets.resolveForeignKeys = resolveForeignKeys;
+
+Events.fetchById = function(id){
+  return zd.getEvents(id);
+};
+
+Events.resolveForeignKeys = resolveForeignKeys;
 
 module.exports = {
   sync,

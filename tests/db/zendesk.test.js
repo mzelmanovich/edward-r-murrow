@@ -107,6 +107,15 @@ describe('Zendesk Database Objects', function(){
       .catch(done);
     });
 
+    it('Can fetch Users', (done) => {
+      db.zd.Events.fetchById(18146)
+      .then((arr) => {
+        expect(arr[0].ticket_id).to.equal(18146);
+        done();
+      })
+      .catch(done);
+    });
+
   });
 
   describe('resolveForeignKeys', () => {
