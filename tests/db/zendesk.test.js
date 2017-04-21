@@ -217,7 +217,7 @@ describe('Zendesk Database Objects', function(){
 
     it('Shows up on Tickets via fetchEvents', (done) => {
       db.zd.Tickets.fetchById(18146)
-      .then(ticket => db.zd.Tickets.resolveForeignKeys(18146))
+      .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
       .then(ticket => ticket.fetchEvents())
       .then(ticket => {
         expect(ticket.events.length).to.be.greaterThan(15);
