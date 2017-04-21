@@ -47,6 +47,8 @@ class Zendesk{
     this.authHeader = this.makeAuthHeader(userName, token);
     this.requestPromiseChain = BlueBird.resolve(true);
     this.customFieldDict = customFieldDict;
+    this.getCustomFieldId = this.getCustomFieldId.bind(this);
+    this.getCustomFieldName = this.getCustomFieldName.bind(this);
   }
 
   makeAuthHeader (userName, token) {
