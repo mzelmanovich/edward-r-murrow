@@ -70,6 +70,20 @@ const findFirstEvent = function(obj) {
      });
 };
 
+const calcEscAt = function(){
+  const field_name = '23778369';
+  const type = 'Change';
+  const value = 'pend_esc';
+  const previous_value = '';
+  return this.findFirstEvent({field_name, type, previous_value, value})
+  .then((event) => {
+    if (!event){
+      return this.created_at;
+    }
+    return event.created_at;
+  });
+};
+
 module.exports = {
   fetchEvents,
   enrichEvents,
