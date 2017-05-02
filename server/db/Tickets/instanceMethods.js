@@ -54,6 +54,7 @@ const findLastEvent = function(obj) {
 const findFirstEvent = function(obj) {
   return this.enrichEvents()
      .then(({events}) => {
+       console.log(events);
        if (!events){
          return null;
        }
