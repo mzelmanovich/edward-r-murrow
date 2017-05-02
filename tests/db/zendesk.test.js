@@ -227,12 +227,16 @@ describe('Zendesk Database Objects', function(){
     });
 
     it('Shows proper Accepted at', (done) => {
+      let saveticket;
       db.zd.Tickets.fetchById(18146)
       .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
       .then(ticket => ticket.fetchEvents())
-      .then(ticket => ticket.calcEscAt())
+      .then(ticket => {
+        saveticket = ticket;
+        return ticket.calcEscAt();
+      })
       .then(date => {
-        expect(date.toString()).to.not.equal(this.created_at.toString());
+        expect(date.toString()).to.not.equal(saveticket.created_at.toString());
         expect(date.toString()).to.equal(new Date('2017-01-03T18:36:37Z').toString());
         done();
       })
