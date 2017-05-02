@@ -27,7 +27,7 @@ const sortEvents =  function() {
 const enrichEvents = function(){
   return conn.model('event').findAll({where: {ticket_id: this.id}}).then(events => {
     if (events.length){
-      return () => conn.model('ticket').findById(this.id, {include: [{all: true}]})
+      return conn.model('ticket').findById(this.id, {include: [{all: true}]})
       .then(ticket => ticket.sortEvents());
     }
     return this.fetchEvents();
@@ -55,7 +55,6 @@ const findFirstEvent = function(obj) {
   return this.enrichEvents()
      .then(ticket => {
        const {events} = ticket;
-       console.log(ticket);
        if (!events){
          return null;
        }
@@ -77,7 +76,7 @@ const calcEscAt = function(){
   const type = 'Change';
   const value = 'pend_esc';
   const previous_value = '';
-  return this.findFirstEvent({field_name, type, previous_value, value})
+  return this.findFirstEvent({field_name, type, value, previous_value})
   .then((event) => {
     if (!event){
       return this.created_at;
