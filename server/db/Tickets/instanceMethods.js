@@ -54,7 +54,7 @@ const findLastEvent = function(obj) {
 const findFirstEvent = function(obj) {
   return this.enrichEvents()
      .then(({events}) => {
-       if (!events.length){
+       if (!events){
          return null;
        }
        const keys = Object.keys(obj);
