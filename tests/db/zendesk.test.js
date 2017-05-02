@@ -226,7 +226,7 @@ describe('Zendesk Database Objects', function(){
       .catch(done);
     });
 
-    it('Shows proper Accepted at', (done) => {
+    it('Shows proper ESC at', (done) => {
       let saveticket;
       db.zd.Tickets.fetchById(18146)
       .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
@@ -243,7 +243,7 @@ describe('Zendesk Database Objects', function(){
       .catch(done);
     });
 
-    it('Shows proper Accepted at for follow up', (done) => {
+    it('Shows proper ESC at for follow up', (done) => {
       let saveticket;
       db.zd.Tickets.fetchById(16595)
       .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
@@ -254,6 +254,39 @@ describe('Zendesk Database Objects', function(){
       })
       .then(date => {
         expect(date.toString()).to.equal(saveticket.created_at.toString());
+        done();
+      })
+      .catch(done);
+    });
+
+    it('Shows proper Accepted at for follow up', (done) => {
+      let saveticket;
+      db.zd.Tickets.fetchById(16595)
+      .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
+      .then(ticket => ticket.fetchEvents())
+      .then(ticket => {
+        saveticket = ticket;
+        return ticket.calcAcceptedAt();
+      })
+      .then(date => {
+        expect(date.toString()).to.equal(saveticket.created_at.toString());
+        done();
+      })
+      .catch(done);
+    });
+
+    it('Shows proper Accepted at', (done) => {
+      let saveticket;
+      db.zd.Tickets.fetchById(18146)
+      .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
+      .then(ticket => ticket.fetchEvents())
+      .then(ticket => {
+        saveticket = ticket;
+        return ticket.calcAcceptedAt();
+      })
+      .then(date => {
+        expect(date.toString()).to.not.equal(saveticket.created_at.toString());
+        expect(date.toString()).to.equal(new Date('2017-01-03T20:04:23Z').toString());
         done();
       })
       .catch(done);

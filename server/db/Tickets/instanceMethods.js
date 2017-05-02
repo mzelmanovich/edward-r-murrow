@@ -89,11 +89,18 @@ const calcAcceptedAt = function(){
   const field_name = '23778369';
   const type = 'Change';
   const value = 'accepted_esc';
-  const previous_value = 'pend_esc';
+  let previous_value = 'pend_esc';
   return this.findFirstEvent({field_name, type, value, previous_value})
   .then((event) => {
     if (!event){
-      return this.created_at;
+      previous_value = 'incomplete_esc';
+      return this.findFirstEvent({field_name, type, value, previous_value})
+      .then((subEvent) => {
+        if (!subEvent){
+          return this.created_at;
+        }
+        return subEvent.created_at;
+      });
     }
     return event.created_at;
   });
