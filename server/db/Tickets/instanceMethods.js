@@ -106,6 +106,26 @@ const calcAcceptedAt = function(){
   });
 };
 
+const calcResolvedAt = function(){
+  const field_name = '23778369';
+  const type = 'Change';
+  let value = 'suc_esc';
+  return this.findLastEvent({field_name, type, value})
+  .then((event) => {
+    if (!event){
+      value = 'esc_not_needed';
+      return this.findLastEvent({field_name, type, value})
+      .then((subEvent) => {
+        if (!subEvent){
+          return null;
+        }
+        return subEvent.created_at;
+      });
+    }
+    return event.created_at;
+  });
+};
+
 module.exports = {
   fetchEvents,
   enrichEvents,
@@ -113,5 +133,6 @@ module.exports = {
   sortEvents,
   findLastEvent,
   calcEscAt,
-  calcAcceptedAt
+  calcAcceptedAt,
+  calcResolvedAt
 };
