@@ -139,6 +139,28 @@ const calcResolvedAt = function(){
   });
 };
 
+const findTT = function() {
+  return this.findLastEvent({
+    field_name: '24736606'
+  }).then( event => {
+    if (event){
+      return event.value;
+    }
+    return null;
+  });
+};
+
+const findEscTam = function() {
+  return this.findLastEvent({
+    field_name: '24667426'
+  }).then( event => {
+    if (event){
+      return event.value;
+    }
+    return null;
+  });
+};
+
 module.exports = {
   fetchEvents,
   enrichEvents,
@@ -148,5 +170,7 @@ module.exports = {
   calcEscAt,
   calcAcceptedAt,
   calcResolvedAt,
-  calcSolvedAt
+  calcSolvedAt,
+  findTT,
+  findEscTam
 };
