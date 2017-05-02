@@ -226,5 +226,135 @@ describe('Zendesk Database Objects', function(){
       .catch(done);
     });
 
+    it('Shows proper ESC at', (done) => {
+      let saveticket;
+      db.zd.Tickets.fetchById(18146)
+      .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
+      .then(ticket => ticket.fetchEvents())
+      .then(ticket => {
+        saveticket = ticket;
+        return ticket.calcEscAt();
+      })
+      .then(date => {
+        expect(date.toString()).to.not.equal(saveticket.created_at.toString());
+        expect(date.toString()).to.equal(new Date('2017-01-03T18:36:37Z').toString());
+        done();
+      })
+      .catch(done);
+    });
+
+    it('Shows proper ESC at for follow up', (done) => {
+      let saveticket;
+      db.zd.Tickets.fetchById(16595)
+      .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
+      .then(ticket => ticket.fetchEvents())
+      .then(ticket => {
+        saveticket = ticket;
+        return ticket.calcEscAt();
+      })
+      .then(date => {
+        expect(date.toString()).to.equal(saveticket.created_at.toString());
+        done();
+      })
+      .catch(done);
+    });
+
+    it('Shows proper Accepted at for follow up', (done) => {
+      let saveticket;
+      db.zd.Tickets.fetchById(16595)
+      .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
+      .then(ticket => ticket.fetchEvents())
+      .then(ticket => {
+        saveticket = ticket;
+        return ticket.calcAcceptedAt();
+      })
+      .then(date => {
+        expect(date.toString()).to.equal(saveticket.created_at.toString());
+        done();
+      })
+      .catch(done);
+    });
+
+    it('Shows proper Accepted at', (done) => {
+      let saveticket;
+      db.zd.Tickets.fetchById(18146)
+      .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
+      .then(ticket => ticket.fetchEvents())
+      .then(ticket => {
+        saveticket = ticket;
+        return ticket.calcAcceptedAt();
+      })
+      .then(date => {
+        expect(date.toString()).to.not.equal(saveticket.created_at.toString());
+        expect(date.toString()).to.equal(new Date('2017-01-03T20:04:23Z').toString());
+        done();
+      })
+      .catch(done);
+    });
+
+    it('Shows proper resolved at', (done) => {
+      let saveticket;
+      db.zd.Tickets.fetchById(18146)
+      .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
+      .then(ticket => ticket.fetchEvents())
+      .then(ticket => {
+        saveticket = ticket;
+        return ticket.calcResolvedAt();
+      })
+      .then(date => {
+        expect(date).to.not.equal(null);
+        expect(date.toString()).to.equal(new Date('2017-01-04T18:18:16Z').toString());
+        done();
+      })
+      .catch(done);
+    });
+
+    it('Shows proper resolved at for follow ups', (done) => {
+      let saveticket;
+      db.zd.Tickets.fetchById(16595)
+      .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
+      .then(ticket => ticket.fetchEvents())
+      .then(ticket => {
+        saveticket = ticket;
+        return ticket.calcResolvedAt();
+      })
+      .then(date => {
+        expect(date).to.not.equal(null);
+        expect(date.toString()).to.equal(new Date('2016-11-07T17:07:54Z').toString());
+        done();
+      })
+      .catch(done);
+    });
+
+    it('gets esc tam', (done) => {
+      let saveticket;
+      db.zd.Tickets.fetchById(18146)
+      .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
+      .then(ticket => ticket.fetchEvents())
+      .then(ticket => {
+        saveticket = ticket;
+        return ticket.findEscTam();
+      })
+      .then(name => {
+        expect(name).to.equal('Ram Suriyanarayan');
+        done();
+      })
+      .catch(done);
+    });
+
+    it('gets esc tt', (done) => {
+      db.zd.Tickets.fetchById(18146)
+      .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
+      .then(ticket => ticket.fetchEvents())
+      .then(ticket => {
+        saveticket = ticket;
+        return ticket.findTT();
+      })
+      .then(name => {
+        expect(name).to.equal('Nilabh Mishra');
+        done();
+      })
+      .catch(done);
+    });
   });
 });

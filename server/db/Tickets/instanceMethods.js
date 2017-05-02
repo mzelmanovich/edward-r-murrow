@@ -27,7 +27,7 @@ const sortEvents =  function() {
 const enrichEvents = function(){
   return conn.model('event').findAll({where: {ticket_id: this.id}}).then(events => {
     if (events.length){
-      return () => conn.model('ticket').findById(this.id, {include: [{all: true}]})
+      return conn.model('ticket').findById(this.id, {include: [{all: true}]})
       .then(ticket => ticket.sortEvents());
     }
     return this.fetchEvents();
@@ -53,8 +53,9 @@ const findLastEvent = function(obj) {
 };
 const findFirstEvent = function(obj) {
   return this.enrichEvents()
-     .then(({events}) => {
-       if (!events.length){
+     .then(ticket => {
+       const {events} = ticket;
+       if (!events){
          return null;
        }
        const keys = Object.keys(obj);
@@ -70,10 +71,106 @@ const findFirstEvent = function(obj) {
      });
 };
 
+const calcEscAt = function(){
+  const field_name = '23778369';
+  const type = 'Change';
+  const value = 'pend_esc';
+  const previous_value = '';
+  return this.findFirstEvent({field_name, type, value, previous_value})
+  .then((event) => {
+    if (!event){
+      return this.created_at;
+    }
+    return event.created_at;
+  });
+};
+
+const calcSolvedAt = function(){
+  const field_name = 'status';
+  const type = 'Change';
+  const value = 'solved';
+  return this.findLastEvent({field_name, type, value})
+  .then((event) => {
+    if (!event){
+      return null;
+    }
+    return event.created_at;
+  });
+};
+
+const calcAcceptedAt = function(){
+  const field_name = '23778369';
+  const type = 'Change';
+  const value = 'accepted_esc';
+  let previous_value = 'pend_esc';
+  return this.findFirstEvent({field_name, type, value, previous_value})
+  .then((event) => {
+    if (!event){
+      previous_value = 'incomplete_esc';
+      return this.findFirstEvent({field_name, type, value, previous_value})
+      .then((subEvent) => {
+        if (!subEvent){
+          return this.created_at;
+        }
+        return subEvent.created_at;
+      });
+    }
+    return event.created_at;
+  });
+};
+
+const calcResolvedAt = function(){
+  const field_name = '23778369';
+  const type = 'Change';
+  let value = 'suc_esc';
+  return this.findLastEvent({field_name, type, value})
+  .then((event) => {
+    if (!event){
+      value = 'esc_not_needed';
+      return this.findLastEvent({field_name, type, value})
+      .then((subEvent) => {
+        if (!subEvent){
+          return this.calcSolvedAt();
+        }
+        return subEvent.created_at;
+      });
+    }
+    return event.created_at;
+  });
+};
+
+const findTT = function() {
+  return this.findLastEvent({
+    field_name: '24736606'
+  }).then( event => {
+    if (event){
+      return event.value;
+    }
+    return null;
+  });
+};
+
+const findEscTam = function() {
+  return this.findLastEvent({
+    field_name: '24667426'
+  }).then( event => {
+    if (event){
+      return event.value;
+    }
+    return null;
+  });
+};
+
 module.exports = {
   fetchEvents,
   enrichEvents,
   findFirstEvent,
   sortEvents,
-  findLastEvent
+  findLastEvent,
+  calcEscAt,
+  calcAcceptedAt,
+  calcResolvedAt,
+  calcSolvedAt,
+  findTT,
+  findEscTam
 };

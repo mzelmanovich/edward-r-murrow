@@ -9,7 +9,7 @@ const arraySetter = function(value){
     if (typeof val === 'object'){
       val = null;
     }
-    this.setDataValue('previous_value', val);
+    this.setDataValue(value, val);
   };
 };
 
