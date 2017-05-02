@@ -242,5 +242,21 @@ describe('Zendesk Database Objects', function(){
       })
       .catch(done);
     });
+
+    it('Shows proper Accepted at for follow up', (done) => {
+      let saveticket;
+      db.zd.Tickets.fetchById(16595)
+      .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
+      .then(ticket => ticket.fetchEvents())
+      .then(ticket => {
+        saveticket = ticket;
+        return ticket.calcEscAt();
+      })
+      .then(date => {
+        expect(date.toString()).to.equal(saveticket.created_at.toString());
+        done();
+      })
+      .catch(done);
+    });
   });
 });
