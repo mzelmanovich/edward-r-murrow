@@ -89,5 +89,6 @@ module.exports = {
   enrichEvents,
   findFirstEvent,
   sortEvents,
-  findLastEvent
+  findLastEvent,
+  calcEscAt
 };
