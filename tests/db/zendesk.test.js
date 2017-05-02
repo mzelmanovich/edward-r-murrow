@@ -226,5 +226,16 @@ describe('Zendesk Database Objects', function(){
       .catch(done);
     });
 
+    it('Shows proper Accepted at', (done) => {
+      db.zd.Tickets.fetchById(18146)
+      .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
+      .then(ticket => ticket.fetchEvents())
+      .then(ticket => ticket.calcEscAt())
+      .then(date => {
+        expect(date.toString()).to.equal('2017-01-03T18:36:37Z');
+        done();
+      })
+      .catch(done);
+    });
   });
 });
