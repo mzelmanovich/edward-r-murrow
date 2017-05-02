@@ -85,6 +85,19 @@ const calcEscAt = function(){
   });
 };
 
+const calcSolvedAt = function(){
+  const field_name = 'status';
+  const type = 'Change';
+  const value = 'solved';
+  return this.findLastEvent({field_name, type, value})
+  .then((event) => {
+    if (!event){
+      return null;
+    }
+    return event.created_at;
+  });
+};
+
 const calcAcceptedAt = function(){
   const field_name = '23778369';
   const type = 'Change';
@@ -117,7 +130,7 @@ const calcResolvedAt = function(){
       return this.findLastEvent({field_name, type, value})
       .then((subEvent) => {
         if (!subEvent){
-          return null;
+          return this.calcSolvedAt();
         }
         return subEvent.created_at;
       });
@@ -134,5 +147,6 @@ module.exports = {
   findLastEvent,
   calcEscAt,
   calcAcceptedAt,
-  calcResolvedAt
+  calcResolvedAt,
+  calcSolvedAt
 };

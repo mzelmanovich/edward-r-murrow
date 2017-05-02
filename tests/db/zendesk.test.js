@@ -308,5 +308,22 @@ describe('Zendesk Database Objects', function(){
       })
       .catch(done);
     });
+
+    it('Shows proper resolved at for follow ups', (done) => {
+      let saveticket;
+      db.zd.Tickets.fetchById(16595)
+      .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
+      .then(ticket => ticket.fetchEvents())
+      .then(ticket => {
+        saveticket = ticket;
+        return ticket.calcResolvedAt();
+      })
+      .then(date => {
+        expect(date).to.not.equal(null);
+        expect(date.toString()).to.equal(new Date('2016-11-07T17:07:54Z').toString());
+        done();
+      })
+      .catch(done);
+    });
   });
 });
