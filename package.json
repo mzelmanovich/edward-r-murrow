@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "bluebird": "^3.5.0",
+    "json2csv": "^3.7.3",
     "moment": "^2.18.1",
     "needle": "^1.6.0",
     "pg": "^6.1.5",
