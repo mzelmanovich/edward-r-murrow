@@ -325,5 +325,36 @@ describe('Zendesk Database Objects', function(){
       })
       .catch(done);
     });
+
+    it('gets esc tam', (done) => {
+      let saveticket;
+      db.zd.Tickets.fetchById(18146)
+      .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
+      .then(ticket => ticket.fetchEvents())
+      .then(ticket => {
+        saveticket = ticket;
+        return ticket.findEscTam();
+      })
+      .then(name => {
+        expect(name).to.equal('Ram Suriyanarayan');
+        done();
+      })
+      .catch(done);
+    });
+
+    it('gets esc tt', (done) => {
+      db.zd.Tickets.fetchById(18146)
+      .then(ticket => db.zd.Tickets.resolveForeignKeys(ticket))
+      .then(ticket => ticket.fetchEvents())
+      .then(ticket => {
+        saveticket = ticket;
+        return ticket.findTT();
+      })
+      .then(name => {
+        expect(name).to.equal('Nilabh Mishra');
+        done();
+      })
+      .catch(done);
+    });
   });
 });
