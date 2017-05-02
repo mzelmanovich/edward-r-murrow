@@ -232,7 +232,7 @@ describe('Zendesk Database Objects', function(){
       .then(ticket => ticket.fetchEvents())
       .then(ticket => ticket.calcEscAt())
       .then(date => {
-        expect(date.toString()).to.equal('2017-01-03T18:36:37Z');
+        expect(date.toString()).to.equal(new Date('2017-01-03T18:36:37Z').toString());
         done();
       })
       .catch(done);
