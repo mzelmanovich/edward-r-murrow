@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize');
 
-const logging = process.env.SQL_LOGGING ? true : false;
+const logging = !!process.env.SQL_LOGGING;
 
-const conn = new Sequelize(process.env.DATABASE_URL, {
+const conn = new Sequelize(process.env.DATABASE_URL || require('../../config').DATABASE_URL, {
   logging
 });
 

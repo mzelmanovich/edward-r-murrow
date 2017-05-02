@@ -170,9 +170,9 @@ class Zendesk{
 
 
 const catchpointsystemsConfig = {
-  userName: process.env.ZD_USERNAME,
-  token: process.env.ZD_TOKEN,
-  domain: process.env.ZD_DOMAIN
+  userName: process.env.ZD_USERNAME || require('../../../config').ZD_USERNAME,
+  token: process.env.ZD_TOKEN || require('../../../config').ZD_TOKEN,
+  domain: process.env.ZD_DOMAIN || require('../../../config').ZD_DOMAIN,
 };
 
 Zendesk.catchpointsystems = new Zendesk(catchpointsystemsConfig);
